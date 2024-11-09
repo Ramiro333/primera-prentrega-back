@@ -1,0 +1,22 @@
+[
+	{
+		"id": 2,
+		"title": "hola",
+		"description": "chau",
+		"code": "code",
+		"price": "price",
+		"status": false,
+		"stock": null,
+		"category": "category"
+	},
+	{
+		"id": 3,
+		"title": "hola",
+		"description": "chau",
+		"code": "code",
+		"price": "price",
+		"status": false,
+		"stock": null,
+		"category": "category"
+	}
+]

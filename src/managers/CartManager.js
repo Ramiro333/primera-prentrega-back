@@ -58,18 +58,18 @@ export default class CartManager {
     addOneProduct= async (id, productId) => {
         try {
             const cartFound = await this.#findOneById(id);
-            const productIndex = cartFound.products.findIndex((item) => item.product === Number(productId));
-
+            console.log(cartFound);
+            const productIndex = cartFound.productos.findIndex((item) => item.product === Number(productId));
+            console.log(cartFound);
             if (productIndex >= 0) {
-                cartFound.products[productIndex].quantity++;
+                cartFound.productos[productIndex].quantity++;
             } else {
-                cartFound.products.push({ product: Number(productId), quantity: 1 });
+                cartFound.productos.push({ product: Number(productId), quantity: 1 });
             }
 
             const index = this.#carts.findIndex((item) => item.id === Number(id));
             this.#carts[index] = cartFound;
             await writeJsonFile(paths.files, this.#jsonFilename, this.#carts);
-
             return cartFound;
         } catch (error) {
             throw new ErrorManager(error.message, error.code);

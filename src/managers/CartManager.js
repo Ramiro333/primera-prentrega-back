@@ -55,16 +55,16 @@ export default class CartManager {
             throw new ErrorManager(error.message, error.code);
         }
     }
-    addOneProduct= async (id, productId) => {
+    addOneProduct= async (id, productId, quantity) => {
         try {
             const cartFound = await this.#findOneById(id);
             console.log(cartFound);
-            const productIndex = cartFound.productos.findIndex((item) => item.product === Number(productId));
+            const productIndex = cartFound.productos.findIndex((item) => item.producto === Number(productId));
             console.log(cartFound);
             if (productIndex >= 0) {
-                cartFound.productos[productIndex].quantity++;
+                cartFound.productos[productIndex].quantity += quantity ;
             } else {
-                cartFound.productos.push({ product: Number(productId), quantity: 1 });
+                cartFound.productos.push({ producto: Number(productId), quantity:1 });
             }
 
             const index = this.#carts.findIndex((item) => item.id === Number(id));
@@ -75,24 +75,4 @@ export default class CartManager {
             throw new ErrorManager(error.message, error.code);
         }
     };
-    // addOneProduct= async (id, ingredientId) => {
-    //     try {
-    //         const recipeFound = await this.#findOneById(id);
-    //         const ingredientIndex = recipeFound.ingredients.findIndex((item) => item.ingredient === Number(ingredientId));
-
-    //         if (ingredientIndex >= 0) {
-    //             recipeFound.ingredients[ingredientIndex].quantity++;
-    //         } else {
-    //             recipeFound.ingredients.push({ ingredient: Number(ingredientId), quantity: 1 });
-    //         }
-
-    //         const index = this.#recipes.findIndex((item) => item.id === Number(id));
-    //         this.#recipes[index] = recipeFound;
-    //         await writeJsonFile(paths.files, this.#jsonFilename, this.#recipes);
-
-    //         return recipeFound;
-    //     } catch (error) {
-    //         throw new ErrorManager(error.message, error.code);
-    //     }
-    // };
 }

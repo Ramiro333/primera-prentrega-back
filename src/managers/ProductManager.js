@@ -49,7 +49,7 @@ export default class ProductManager {
                 description,
                 code,
                 price,
-                status: convertToBoolean(status),
+                status: convertToBoolean(status) || true,
                 stock: Number(stock),
                 category,
             };
@@ -62,10 +62,11 @@ export default class ProductManager {
         }
     }
 
-    async updateOneById(pid, data, file) {
+    async updateOneById(pid, data) {
         try {
-            const { id, title, description, code, price, status, stock, category } = data;
-            const productFound = await this.#findOneById(id);
+            console.log(pid, data);
+            const { title, description, code, price, status, stock, category } = data;
+            const productFound = await this.#findOneById(pid);
             const product = {
                 id: productFound.id,
                 title: title || productFound.title,
@@ -76,12 +77,12 @@ export default class ProductManager {
                 stock: stock ? Number(stock) : productFound.stock,
                 category: category||productFound.category,
             };
+            console.log(pid, data);
             const index = this.#productos.findIndex((item) => item.id === Number(pid));
             this.#productos[index] = product;
             await writeJsonFile(paths.files, this.#jsonFilename, this.#productos);
             return product;
         } catch (error) {
-            if (file?.filename) await deleteFile(paths.images, file.filename);
             throw new ErrorManager(error.message, error.code);
         }
     }

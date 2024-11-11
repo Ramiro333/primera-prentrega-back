@@ -1,7 +1,7 @@
 import paths from "../utils/paths.js";
 import { readJsonFile, writeJsonFile } from "../utils/fileHandler.js";
 import { generateId } from "../utils/collectionHandler.js";
-import ErrorManager from "./Error.manager.js";
+import ErrorManager from "./ErrorManager.js";
 
 export default class CartManager {
     #jsonFilename;

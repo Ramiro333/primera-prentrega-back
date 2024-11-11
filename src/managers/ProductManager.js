@@ -2,7 +2,7 @@ import paths from "../utils/paths.js";
 import { readJsonFile, writeJsonFile, deleteFile } from "../utils/fileHandler.js";
 import { generateId } from "../utils/collectionHandler.js";
 import { convertToBoolean } from "../utils/converter.js";
-import ErrorManager from "./Error.manager.js";
+import ErrorManager from "./ErrorManager.js";
 
 export default class ProductManager {
     #jsonFilename;
@@ -18,7 +18,6 @@ export default class ProductManager {
         }
         return productFound;
     }
-
     async getAll() {
         try {
             this.#productos = await readJsonFile(paths.files, this.#jsonFilename);
@@ -27,7 +26,6 @@ export default class ProductManager {
             throw new ErrorManager(error.message, error.code);
         }
     }
-
     async getOneById(id) {
         try {
             const productFound = await this.#findOneById(id);
@@ -36,7 +34,6 @@ export default class ProductManager {
             throw new ErrorManager(error.message, error.code);
         }
     }
-
     async insertOne(data, file) {
         try {
             const { title, description, code, price, status, stock, category } = data;
@@ -52,6 +49,7 @@ export default class ProductManager {
                 status: convertToBoolean(status) || true,
                 stock: Number(stock),
                 category,
+                thumbnail: file?.filename || "sin imagen",
             };
             this.#productos.push(producto);
             await writeJsonFile(paths.files, this.#jsonFilename, this.#productos);
@@ -61,12 +59,11 @@ export default class ProductManager {
             throw new ErrorManager(error.message, error.code);
         }
     }
-
-    async updateOneById(pid, data) {
+    async updateOneById(pid, data, file) {
         try {
-            console.log(pid, data);
             const { title, description, code, price, status, stock, category } = data;
             const productFound = await this.#findOneById(pid);
+            const newThumbnail = file?.filename;
             const product = {
                 id: productFound.id,
                 title: title || productFound.title,
@@ -76,8 +73,11 @@ export default class ProductManager {
                 status: status ? convertToBoolean(status) : productFound.status,
                 stock: stock ? Number(stock) : productFound.stock,
                 category: category||productFound.category,
+                thumbnail: newThumbnail || productFound.thumbnail,
             };
-            console.log(pid, data);
+            if (file?.filename && newThumbnail !== productFound.thumbnail) {
+                await deleteFile(paths.images, productFound.thumbnail);
+            }
             const index = this.#productos.findIndex((item) => item.id === Number(pid));
             this.#productos[index] = product;
             await writeJsonFile(paths.files, this.#jsonFilename, this.#productos);
@@ -86,7 +86,6 @@ export default class ProductManager {
             throw new ErrorManager(error.message, error.code);
         }
     }
-
     async deleteOneById (id) {
         try {
             await this.#findOneById(id);

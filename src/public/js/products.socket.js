@@ -34,7 +34,7 @@ btnDeleteProduct.onclick = () => {
     if (id > 0) {
         socket.emit("delete-product", { id });
     } else {
-        errorMessage.innerText = "Invalida ID, cannot delete the product";
+        errorMessage.innerText = "Invalid ID, cannot delete the product";
     }
 };
 socket.on("error-message", (data) => {

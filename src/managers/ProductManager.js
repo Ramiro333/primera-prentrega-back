@@ -38,7 +38,7 @@ export default class ProductManager {
         try {
             const { title, description, code, price, status, stock, category } = data;
             if (!title ||!description||!code||!price|| !status || !stock || !category) {
-                throw new ErrorManager("Faltan datos obligatorios", 400);
+                throw new ErrorManager("Incomplete fields", 400);
             }
             const producto = {
                 id: generateId(await this.getAll()),
@@ -49,7 +49,7 @@ export default class ProductManager {
                 status: convertToBoolean(status) || true,
                 stock: Number(stock),
                 category,
-                thumbnail: file?.filename || "sin imagen",
+                thumbnail: file?.filename || "no image",
             };
             this.#productos.push(producto);
             await writeJsonFile(paths.files, this.#jsonFilename, this.#productos);

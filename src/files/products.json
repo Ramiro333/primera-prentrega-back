@@ -1,0 +1,112 @@
+[
+	{
+		"id": 1,
+		"title": "televisor HJ2",
+		"description": "televisor LG",
+		"code": "2333",
+		"price": "500",
+		"status": true,
+		"stock": 100,
+		"category": "pantallas",
+		"thumbnail": "sin imagen"
+	},
+	{
+		"id": 2,
+		"title": "monitor LG",
+		"description": "monitor qhd",
+		"code": "345",
+		"price": "200",
+		"status": true,
+		"stock": 34,
+		"category": "pantallas",
+		"thumbnail": "sin imagen"
+	},
+	{
+		"id": 3,
+		"title": "rtx 3080",
+		"description": "placa de video",
+		"code": "312",
+		"price": "260",
+		"status": true,
+		"stock": 3,
+		"category": "hardware",
+		"thumbnail": "sin imagen"
+	},
+	{
+		"id": 4,
+		"title": "ryzen 5 5600x",
+		"description": "procesador",
+		"code": "654",
+		"price": "170",
+		"status": true,
+		"stock": 7,
+		"category": "hardware",
+		"thumbnail": "sin imagen"
+	},
+	{
+		"id": 5,
+		"title": "silla ergonomica",
+		"description": "silla de escritorio",
+		"code": "841",
+		"price": "240",
+		"status": true,
+		"stock": 12,
+		"category": "hogar",
+		"thumbnail": "sin imagen"
+	},
+	{
+		"id": 6,
+		"title": "red dragon 300",
+		"description": "mouse inalambrico",
+		"code": "21",
+		"price": "40",
+		"status": true,
+		"stock": 52,
+		"category": "perifericos",
+		"thumbnail": "sin imagen"
+	},
+	{
+		"id": 7,
+		"title": "teclado kl500",
+		"description": "teclado de escritorio",
+		"code": "2131",
+		"price": "60",
+		"status": true,
+		"stock": 24,
+		"category": "perifericos",
+		"thumbnail": "sin imagen"
+	},
+	{
+		"id": 8,
+		"title": "razer blackshar v2",
+		"description": "auriculares blancos con microfono",
+		"code": "2311",
+		"price": "40",
+		"status": true,
+		"stock": 21,
+		"category": "perifericos",
+		"thumbnail": "sin imagen"
+	},
+	{
+		"id": 9,
+		"title": "idcooling-cs1",
+		"description": "cooler de procesador",
+		"code": "83",
+		"price": "24",
+		"status": true,
+		"stock": 15,
+		"category": "hardware",
+		"thumbnail": "sin imagen"
+	},
+	{
+		"id": 10,
+		"title": "SSD v23",
+		"description": "unidad de almacenamiento",
+		"code": "9412",
+		"price": "30",
+		"status": true,
+		"stock": 5,
+		"category": "hardware",
+		"thumbnail": "sin imagen"
+	}
+]

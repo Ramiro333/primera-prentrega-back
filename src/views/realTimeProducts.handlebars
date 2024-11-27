@@ -1,0 +1,37 @@
+<header>
+    <h1>LIST OF PRODUCTS IN REAL TIME  </h1>
+</header>
+<main>
+    <section>
+        <h3>PRODUCTS ! ! !</h3>
+        <div class="products">
+            <div class="products__list">
+                <ul class="products__list__item" id="products-list"></ul>
+            </div>
+        </div>
+    </section>
+    <section>
+        <h3>ADD A PRODUCT</h3>
+        <form class="products__form" id="products-form">
+            <input type="text" name="title" placeholder="Nombre del product">
+            <input type="text" name="description" placeholder="Product description">
+            <input type="number" name="code" placeholder="Product code">
+            <input type="number" name="price" placeholder="Product price">
+            <div>IS ACTIVE?<input type="checkbox" name="status"></div>
+            <input type="number" name="stock" placeholder="Product stock">
+            <input type="text" name="category" placeholder="Product category">
+            <input type="submit" value="SAVE" style="width: 100%">
+        </form>
+    </section>
+    <section>
+        <h3>DELETE A PRODUCT</h3>
+        <div class="products__delete">
+            <input type="number" class="products__delete__input" id="input-product-id"
+                placeholder="Products ID">
+            <button id="btn-delete-product">DELETE</button>
+        </div>
+    </section>
+    <p class="error-message" id="error-message"></p>
+</main>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/api/public/js/products.socket.js"></script>

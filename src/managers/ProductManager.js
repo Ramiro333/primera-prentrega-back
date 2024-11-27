@@ -14,7 +14,7 @@ export default class ProductManager {
         this.#productos = await this.getAll();
         const productFound = this.#productos.find((item) => item.id === Number(id));
         if (!productFound) {
-            throw new ErrorManager("no se encontró el producto con el ID"+id, 404);
+            throw new ErrorManager("ID:"+id+" doesn't exist", 404);
         }
         return productFound;
     }

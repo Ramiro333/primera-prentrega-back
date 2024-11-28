@@ -2,8 +2,8 @@
     <h1>LIST OF PRODUCTS IN REAL TIME  </h1>
 </header>
 <main>
-    <section>
-        <h3>PRODUCTS ! ! !</h3>
+    <section >
+        <h3 class="header-p">PRODUCTS ! ! !</h3>
         <div class="products">
             <div class="products__list">
                 <ul class="products__list__item" id="products-list"></ul>
@@ -11,20 +11,20 @@
         </div>
     </section>
     <section>
-        <h3>ADD A PRODUCT</h3>
+        <h3 class="header-p">ADD A PRODUCT</h3>
         <form class="products__form" id="products-form">
-            <input type="text" name="title" placeholder="Nombre del product">
-            <input type="text" name="description" placeholder="Product description">
-            <input type="number" name="code" placeholder="Product code">
-            <input type="number" name="price" placeholder="Product price">
-            <div>IS ACTIVE?<input type="checkbox" name="status"></div>
-            <input type="number" name="stock" placeholder="Product stock">
-            <input type="text" name="category" placeholder="Product category">
-            <input type="submit" value="SAVE" style="width: 100%">
+            <input type="text" name="title" placeholder="Products name" class="form-field">
+            <input type="text" name="description" placeholder="Product description" class="form-field">
+            <input type="number" name="code" placeholder="Product code" class="form-field">
+            <input type="number" name="price" placeholder="Product price" class="form-field">
+            <div class="active">IS ACTIVE?<input type="checkbox" name="status"></div>
+            <input type="number" name="stock" placeholder="Product stock" class="form-field">
+            <input type="text" name="category" placeholder="Product category" class="form-field">
+            <input type="submit" value="SAVE" style="width: 100%" class="form-field">
         </form>
     </section>
     <section>
-        <h3>DELETE A PRODUCT</h3>
+        <h3 class="header-p">DELETE A PRODUCT</h3>
         <div class="products__delete">
             <input type="number" class="products__delete__input" id="input-product-id"
                 placeholder="Products ID">

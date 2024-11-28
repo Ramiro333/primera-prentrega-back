@@ -4,8 +4,9 @@ const loadProductsList = async () => {
     const data = await response.json();
     const products = data.payload || [];
     productsList.innerText = "";
+    console.log(products);
     products.forEach((product) => {
-        productsList.innerHTML += `<li>Id: ${product.id} - Name: ${product.title}</li>`;
+        productsList.innerHTML += `<li>Name: ${product.title}<br>-Id: ${product.id}<br> -Description: ${product.description}<br>-Price: ${product.price}<br>-Stock: ${product.stock}<br>-Category: ${product.category}</li>`;
     });
 };
 

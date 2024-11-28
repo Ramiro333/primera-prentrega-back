@@ -8,7 +8,7 @@ socket.on("products-list", (data) => {
     const products = data.products ?? [];
     productsList.innerText = "";
     products.forEach((product) => {
-        productsList.innerHTML += `<li>Id: ${product.id} - NAME: ${product.title}</li>`;
+        productsList.innerHTML += `<li>Name: ${product.title}<br>-Id: ${product.id}<br> -Description: ${product.description}<br>-Price: ${product.price}<br>-Stock: ${product.stock}<br>-Category: ${product.category}</li>`;
     });
 });
 productsForm.onsubmit = (event) => {

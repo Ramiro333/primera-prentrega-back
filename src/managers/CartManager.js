@@ -1,76 +1,69 @@
-import paths from "../utils/paths.js";
-import { readJsonFile, writeJsonFile } from "../utils/fileHandler.js";
-import { generateId } from "../utils/collectionHandler.js";
 import ErrorManager from "./ErrorManager.js";
+import { isValidID } from "../config/mongoose.config.js";
+import CartModel from "../models/cart.model.js";
 
 export default class CartManager {
-    #jsonFilename;
-    #carts;
+    #cartModel;
+
     constructor() {
-        this.#jsonFilename = "cart.json";
+        this.#cartModel = CartModel;
     }
     async #findOneById(id) {
-        this.#carts = await this.getAll();
-        const cartFound = this.#carts.find((item) => item.id === Number(id));
-        if (!cartFound) {
-            throw new ErrorManager("no se encontró el cart con el ID"+id, 404);
+        if (!isValidID(id)) {
+            throw new ErrorManager("ID inválido", 400);
         }
-        return cartFound;
+        const cart = await this.#cartModel.findById(id).populate("products.product");
+        if (!cart) {
+            throw new ErrorManager("ID no encontrado", 404);
+        }
+        return cart;
     }
 
-    async getAll() {
+    async getAll(params) {
         try {
-            this.#carts = await readJsonFile(paths.files, this.#jsonFilename);
-            return this.#carts;
+            const paginationOptions = {
+                limit: params?.limit || 10,
+                page: params?.page || 10,
+                populate: "products.product",
+                lean: true,
+            };
+
+            return await this.#cartModel.paginate({}, paginationOptions);
         } catch (error) {
-            throw new ErrorManager(error.message, error.code);
+            throw ErrorManager.handleError(error);
         }
     }
 
     async getOneById(id) {
         try {
-            const cartFound = await this.#findOneById(id);
-            return cartFound;
+            return await this.#findOneById(id);
         } catch (error) {
-            throw new ErrorManager(error.message, error.code);
+            throw ErrorManager.handleError(error);
         }
     }
 
     async insertOne(data) {
         try {
-            const productos = data?.products?.map((item) => {
-                return { producto: Number(item.producto), quantity: 1 };
-            });
-
-            const cart = {
-                id: generateId(await this.getAll()),
-                productos: productos ?? [],
-            };
-
-            this.#carts.push(cart);
-            await writeJsonFile(paths.files, this.#jsonFilename, this.#carts);
-
+            const cart = await this.#cartModel.create(data);
             return cart;
         } catch (error) {
-            throw new ErrorManager(error.message, error.code);
+            throw ErrorManager.handleError(error);
         }
     }
-    addOneProduct= async (id, productId, quantity) => {
+    addOneProduct= async (id, productId) => {
         try {
-            const cartFound = await this.#findOneById(id);
-            console.log(cartFound);
-            const productIndex = cartFound.productos.findIndex((item) => item.producto === Number(productId));
-            console.log(cartFound);
-            if (productIndex >= 0) {
-                cartFound.productos[productIndex].quantity += quantity ;
+            const cart = await this.#findOneById(id);
+            const cartIndex = cart.products.findIndex((item) => item.product._id.toString() === productId);
+
+            if (cartIndex >= 0) {
+                cart.products[cartIndex].quantity++;
             } else {
-                cartFound.productos.push({ producto: Number(productId), quantity:1 });
+                cart.products.push({ product: productId, quantity: 1 });
             }
 
-            const index = this.#carts.findIndex((item) => item.id === Number(id));
-            this.#carts[index] = cartFound;
-            await writeJsonFile(paths.files, this.#jsonFilename, this.#carts);
-            return cartFound;
+            await cart.save();
+
+            return cart;
         } catch (error) {
             throw new ErrorManager(error.message, error.code);
         }

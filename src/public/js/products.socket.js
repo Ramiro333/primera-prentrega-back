@@ -4,8 +4,10 @@ const productsForm = document.getElementById("products-form");
 const inputProductId = document.getElementById("input-product-id");
 const btnDeleteProduct = document.getElementById("btn-delete-product");
 const errorMessage = document.getElementById("error-message");
+const botonAscendente = document.getElementById("boton-ascendente");
+const botonDescendente = document.getElementById("boton-descendente");
 socket.on("products-list", (data) => {
-    const products = data.products ?? [];
+    const products = data.products.docs ?? [];
     productsList.innerText = "";
     products.forEach((product) => {
         productsList.innerHTML += `<li>Name: ${product.title}<br>-Id: ${product.id}<br> -Description: ${product.description}<br>-Price: ${product.price}<br>-Stock: ${product.stock}<br>-Category: ${product.category}</li>`;
@@ -28,14 +30,25 @@ productsForm.onsubmit = (event) => {
     });
 };
 btnDeleteProduct.onclick = () => {
-    const id = Number(inputProductId.value);
+    const id = inputProductId.value;
     inputProductId.value = "";
     errorMessage.innerText = "";
-    if (id > 0) {
+    if (id) {
         socket.emit("delete-product", { id });
     } else {
         errorMessage.innerText = "Invalid ID, cannot delete the product";
     }
+};
+botonAscendente.onclick = (e)=>{
+    console.log("ho");
+    e.preventDefault();
+    const sort = botonAscendente.value;
+    socket.emit("get-products", { sort });
+};
+botonDescendente.onclick = (e)=>{
+    e.preventDefault();
+    const sort = botonDescendente.value;
+    socket.emit("get-products", { sort });
 };
 socket.on("error-message", (data) => {
     errorMessage.innerText = data.message;

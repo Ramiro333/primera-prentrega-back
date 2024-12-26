@@ -6,22 +6,15 @@
     <title>Carrito de Compras</title>
 </head>
 <body>
-    {{log cart.products}}
         <h1>Carrito de Compras</h1>
-    <p>{{cart}}</p>
-        <ul>
-            {{#each cart.products}}
-  <div>
-    <h3>{{this.product.title}}</h3> <!-- Accede al título del producto -->
-    <p>{{this.product.description}}</p> <!-- Descripción del producto -->
-    <p>Precio: ${{this.product.price}}</p> <!-- Precio del producto -->
-    <p>Cantidad: {{this.quantity}}</p> <!-- Cantidad de productos -->
-  </div>
-            {{/each}}
-        </ul>
-
-        <h3>Total: ${{totalPrice}}</h3>
-        <button id="checkout">Proceder al pago</button>
+        <div class="details"></div>
+        <div class="carts">
+            <div class="carts_list">
+                <ul class="carts_list_item" id="products-list"></ul>
+            </div>
+        </div>
+       <a href="/">Volver al inicio</a>
 
 </body>
 </html>
+<script src="/api/public/js/cart.js"></script>

@@ -1,8 +1,8 @@
-const addToCartButton = document.getElementById("add-to-cart");
-
+const addToCartButton = document.querySelector(".add-to-cart");
+const cartId = "67623e3c27826dab333439b9";
 addToCartButton.addEventListener("click", () => {
     const productId = addToCartButton.getAttribute("data-product-id");
-    console.log("Producto agregado al carrito:", productId);
+    console.log("Producto agregado al carrito:", cartId);
     const requestBody = {
         products: [
             {
@@ -11,7 +11,7 @@ addToCartButton.addEventListener("click", () => {
             },
         ],
     };
-    fetch("/api/carritos", {
+    fetch(`/api/carritos/${cartId}/productos/${productId}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(requestBody),

@@ -1,5 +1,8 @@
 import { Router } from "express";
 import ProductModel from "../models/product.model.js";
+// import CartModel from "../models/cart.model.js";
+import CartManager from "../managers/CartManager.js";
+const cartManager = new CartManager();
 const router = Router();
 router.get("/", async (req, res) => {
     try {
@@ -23,6 +26,15 @@ router.get("/producto/:id", async (req, res) => {
 router.get("/realTimeProducts", async (req, res) => {
     try {
         res.render("realTimeProducts", { title: "product list" });
+    } catch (error) {
+        res.status(500).send(`<h1>Error</h1><h3>${error.message}</h3>`);
+    }
+});
+router.get("/carts/:id", async (req, res) => {
+    try {
+        const cart = await cartManager.getOneById(req.params.id);
+        console.log('Cart Data:', cart);  // Agrega este log
+        res.render('cart', { cart: cart });
     } catch (error) {
         res.status(500).send(`<h1>Error</h1><h3>${error.message}</h3>`);
     }

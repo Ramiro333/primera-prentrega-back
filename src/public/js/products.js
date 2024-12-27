@@ -22,7 +22,7 @@ const loadProductsList = async (sort) => {
             </li>
             <button class="add-to-cart" data-product-id="${product.id}">agregar al carrito</button>
             <button class="boton-eliminar-del-carrito">eliminar del carrito</button>
-            <button class="boton-detalle"><a href="/producto/${product.id}">Ver detalles</a></button>
+            <a href="/producto/${product.id}"><button class="boton-detalle">Ver detalles</button></a>
         `;
     });
 

@@ -68,4 +68,28 @@ export default class CartManager {
             throw new ErrorManager(error.message, error.code);
         }
     };
+    async deleteAll (id) {
+        try {
+            const cart = await this.#findOneById(id);
+            cart.products = [];
+            cart.save();
+            return cart;
+        } catch (error) {
+            throw ErrorManager.handleError(error);
+        }
+    }
+    async removeOneProductFromCart(cartId, productId) {
+        try{
+            const cart = await this.#findOneById(cartId);
+            const productIndex = cart.products.findIndex(item => item.product._id.toString() === productId);
+            if(productIndex === -1){
+                throw new ErrorManager(`Producto ${productId} no encontrado en el carrito`, 404);
+            }
+            cart.products.splice(productIndex, 1);
+            await cart.save();
+            return cart;
+        } catch (error) {
+            throw new ErrorManager(error.message, error.code || 500);
+        }
+    }
 }

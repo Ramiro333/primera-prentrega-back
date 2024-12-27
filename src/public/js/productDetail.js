@@ -2,7 +2,6 @@ const addToCartButton = document.querySelector(".add-to-cart");
 const cartId = "67623e3c27826dab333439b9";
 addToCartButton.addEventListener("click", () => {
     const productId = addToCartButton.getAttribute("data-product-id");
-    console.log("Producto agregado al carrito:", cartId);
     const requestBody = {
         products: [
             {

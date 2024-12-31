@@ -78,7 +78,6 @@ export default class ProductManager {
     }
     async deleteOneById (id) {
         try {
-            console.log(id);
             const product = await this.#findOneById(id);
             await product.deleteOne();
         } catch (error) {

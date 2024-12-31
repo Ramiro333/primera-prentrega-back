@@ -3,6 +3,7 @@ const botonAscendente = document.getElementById("boton-ascendente");
 const botonDescendente = document.getElementById("boton-descendente");
 const prevPageButton = document.getElementById("prev-page");
 const nextPageButton = document.getElementById("next-page");
+const pageNumber = document.querySelector(".page-number");
 
 const loadProductsList = async (sort, page = 1) => {
     const response = await fetch(`/api/productos?sort=${sort}&page=${page}`, { method: "GET" });
@@ -10,7 +11,7 @@ const loadProductsList = async (sort, page = 1) => {
     const data = await response.json();
     const products = data.payload.docs ?? [];
     productsList.innerHTML = "";
-
+    pageNumber.innerText= `numero de pagina: ${data.payload.page}`;
     products.forEach((product) => {
         productsList.innerHTML += `
             <li>
@@ -22,7 +23,7 @@ const loadProductsList = async (sort, page = 1) => {
                 -Category: ${product.category}
             </li>
             <button class="add-to-cart" data-product-id="${product.id}">agregar al carrito</button>
-            <button class="boton-eliminar-del-carrito">eliminar del carrito</button>
+            <button class="boton-eliminar-del-carrito" data-product-id="${product.id}">eliminar del carrito</button>
             <a href="/producto/${product.id}"><button class="boton-detalle">Ver detalles</button></a>
         `;
     });
@@ -34,7 +35,6 @@ const loadProductsList = async (sort, page = 1) => {
         addToCartButton.addEventListener("click", () => {
             const productId = addToCartButton.getAttribute("data-product-id");
             const cartId = "67623e3c27826dab333439b9";
-            console.log("Producto agregado al carrito:", cartId);
 
             const requestBody = {
                 products: [
@@ -66,8 +66,23 @@ const loadProductsList = async (sort, page = 1) => {
     prevPageButton.disabled = !data.payload.hasPrevPage;
     nextPageButton.disabled = !data.payload.hasNextPage;
     removeButtons.forEach((removeButton) => {
-        removeButton.addEventListener("click", () => {
-            console.log("Eliminar del carrito");
+        removeButton.addEventListener("click", async () => {
+            const productId = removeButton.getAttribute("data-product-id");
+            try {
+                const response = await fetch(`/api/carritos/67623e3c27826dab333439b9/productos/${productId}`, {
+                    method: "DELETE",
+                });
+
+                if (response.ok) {
+                    alert("Producto eliminado del carrito con éxito.");
+                } else {
+                    const error = await response.json();
+                    alert("Error al eliminar el producto: " + (error.message || "Error desconocido"));
+                }
+            } catch (error) {
+                alert("Hubo un problema al eliminar el producto del carrito.");
+                console.error(error);
+            }
         });
     });
 };

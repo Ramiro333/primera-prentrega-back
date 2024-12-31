@@ -25,7 +25,6 @@ router.get("/:id", async (req, res) => {
 
 router.post("/", async (req, res) => {
     try {
-        console.log("Body recibido:", req.body);
         const product = await productManager.insertOne(req.body);
         res.status(201).json({ status: "success", payload: product });
     } catch (error) {

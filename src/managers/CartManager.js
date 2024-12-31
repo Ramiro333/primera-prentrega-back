@@ -33,6 +33,25 @@ export default class CartManager {
             throw ErrorManager.handleError(error);
         }
     }
+    async getAllWithFilters(params) {
+        try {
+            const { limit = 10, page = 1, sort, query } = params;
+            const filter = query ? { "products.product.category": query } : {};
+            const paginationOptions = {
+                limit: parseInt(limit),
+                page: parseInt(page),
+                sort: sort ? { "products.product.price": sort === "asc" ? 1 : -1 } : undefined,
+                populate: "products.product",
+                lean: true,
+            };
+
+            const result = await this.#cartModel.paginate(filter, paginationOptions);
+
+            return result;
+        } catch (error) {
+            throw ErrorManager.handleError(error);
+        }
+    }
 
     async getOneById(id) {
         try {
@@ -81,7 +100,7 @@ export default class CartManager {
     async removeOneProductFromCart(cartId, productId) {
         try{
             const cart = await this.#findOneById(cartId);
-            const productIndex = cart.products.findIndex(item => item.product._id.toString() === productId);
+            const productIndex = cart.products.findIndex((item) => item.product._id.toString() === productId);
             if(productIndex === -1){
                 throw new ErrorManager(`Producto ${productId} no encontrado en el carrito`, 404);
             }

@@ -27,7 +27,7 @@ router.get("/realTimeProducts", async (req, res) => {
         res.status(500).send(`<h1>Error</h1><h3>${error.message}</h3>`);
     }
 });
-router.get("/carts/:id", async (req, res) => {
+router.get("/carritos/:id", async (req, res) => {
     try {
         res.render("cart");
     } catch (error) {

@@ -7,7 +7,7 @@ const loadProductsList = async (sort) => {
     if (!response.ok) throw new Error("Error al obtener los productos");
     const data = await response.json();
     const products = data.payload.docs ?? [];
-
+    console.log(data.payload.docs)
     productsList.innerHTML = "";
 
     products.forEach((product) => {

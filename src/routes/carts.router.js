@@ -6,7 +6,7 @@ const cartManager = new CartManager();
 
 router.get("/", async (req, res) => {
     try {
-        const carts = await cartManager.getAll(req.query);
+        const carts = await cartManager.getAllWithFilters(req.query);
         res.status(200).json({ status: "success", payload: carts });
     } catch (error) {
         res.status(error.code || 500).json({ status: "error", message: error.message });

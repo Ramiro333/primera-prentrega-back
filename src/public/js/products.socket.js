@@ -40,7 +40,6 @@ btnDeleteProduct.onclick = () => {
     }
 };
 botonAscendente.onclick = (e)=>{
-    console.log("ho");
     e.preventDefault();
     const sort = botonAscendente.value;
     socket.emit("get-products", { sort });

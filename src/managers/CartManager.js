@@ -19,20 +19,6 @@ export default class CartManager {
         return cart;
     }
 
-    // async getAll(params) {
-    //     try {
-    //         const paginationOptions = {
-    //             limit: params?.limit || 10,
-    //             page: params?.page || 10,
-    //             populate: "products.product",
-    //             lean: true,
-    //         };
-
-    //         return await this.#cartModel.paginate({}, paginationOptions);
-    //     } catch (error) {
-    //         throw ErrorManager.handleError(error);
-    //     }
-    // }
     async getAllWithFilters(params) {
         try {
             const { limit = 10, page = 1, sort, query } = params;

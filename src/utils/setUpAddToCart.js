@@ -30,3 +30,4 @@ export const setupAddToCart= (button, cartId)=> {
             });
     });
 };
+//no entiendo xq no puedo exportar esta funcion a mi carpeta de js ! ! !

@@ -1,13 +1,14 @@
 const productsList = document.getElementById("products-list");
 const botonAscendente = document.getElementById("boton-ascendente");
 const botonDescendente = document.getElementById("boton-descendente");
+const prevPageButton = document.getElementById("prev-page");
+const nextPageButton = document.getElementById("next-page");
 
-const loadProductsList = async (sort) => {
-    const response = await fetch(`/api/productos?sort=${sort}`, { method: "GET" });
+const loadProductsList = async (sort, page = 1) => {
+    const response = await fetch(`/api/productos?sort=${sort}&page=${page}`, { method: "GET" });
     if (!response.ok) throw new Error("Error al obtener los productos");
     const data = await response.json();
     const products = data.payload.docs ?? [];
-    console.log(data.payload.docs)
     productsList.innerHTML = "";
 
     products.forEach((product) => {
@@ -62,22 +63,39 @@ const loadProductsList = async (sort) => {
                 });
         });
     });
-
+    prevPageButton.disabled = !data.payload.hasPrevPage;
+    nextPageButton.disabled = !data.payload.hasNextPage;
     removeButtons.forEach((removeButton) => {
         removeButton.addEventListener("click", () => {
             console.log("Eliminar del carrito");
         });
     });
 };
+let currentPage = 1;
+let currentSort = "asc";
+prevPageButton.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (currentPage > 1) {
+        currentPage--;
+        loadProductsList(currentSort, currentPage);
+    }
+});
 
+nextPageButton.addEventListener("click", (e) => {
+    e.preventDefault();
+    currentPage++;
+    loadProductsList(currentSort, currentPage);
+});
 botonAscendente.addEventListener("click", (e) => {
     e.preventDefault();
-    loadProductsList("asc");
+    currentSort = "asc";
+    loadProductsList("asc", currentPage);
 });
 
 botonDescendente.addEventListener("click", (e) => {
     e.preventDefault();
-    loadProductsList("desc");
+    currentSort = "desc";
+    loadProductsList("desc", currentPage);
 });
 
-loadProductsList();
+loadProductsList(currentSort, currentPage);
